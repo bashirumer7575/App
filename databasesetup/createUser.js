@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./models/User'); // Adjust the path as necessary
+const User = require('./models/User');
 
 mongoose.connect('mongodb://localhost/SocialApp', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -21,7 +21,7 @@ const createUser = async () => {
       password: 'password123'
     });
     const savedUser = await user.save();
-    console.log('User ID:', savedUser._id); // This is the user ID you will use
+    console.log('User ID:', savedUser._id);
   } catch (error) {
     console.error('Error creating user:', error);
   } finally {
