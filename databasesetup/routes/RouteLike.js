@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const likeController = require('../controllers/ControllerLike');
+const { createLike, getLike, deleteLike, getLikesByPost, countLikesForPost } = require('../controllers/ControllerLike');
 
-// Define routes for like actions
-router.post('/', likeController.likePost);
-router.delete('/:id', likeController.unlikePost);
+// Define routes for likes
+router.post('/', createLike);
+router.get('/:id', getLike);
+router.delete('/:id', deleteLike);
+
+// New routes for filtering by post
+router.get('/post/:postId', getLikesByPost);
+router.get('/post/:postId/count', countLikesForPost);
 
 module.exports = router;

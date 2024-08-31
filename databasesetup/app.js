@@ -47,5 +47,6 @@ async function addPost() {
     }
 }
 
+// Call example functions
 addUser();
 addPost();

@@ -1,5 +1,6 @@
 const Comment = require('../models/Comment');
 
+// Create a Comment
 exports.createComment = async (req, res) => {
     try {
         const comment = new Comment(req.body);
@@ -10,9 +11,10 @@ exports.createComment = async (req, res) => {
     }
 };
 
+// Get a Comment by ID
 exports.getComment = async (req, res) => {
     try {
-        const comment = await Comment.findById(req.params.id);
+        const comment = await Comment.findById(req.params.id).populate('user').populate('post');
         if (!comment) return res.status(404).json({ message: 'Comment not found' });
         res.status(200).json(comment);
     } catch (error) {
@@ -20,6 +22,7 @@ exports.getComment = async (req, res) => {
     }
 };
 
+// Update a Comment by ID
 exports.updateComment = async (req, res) => {
     try {
         const comment = await Comment.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -30,11 +33,32 @@ exports.updateComment = async (req, res) => {
     }
 };
 
+// Delete a Comment by ID
 exports.deleteComment = async (req, res) => {
     try {
         const comment = await Comment.findByIdAndDelete(req.params.id);
         if (!comment) return res.status(404).json({ message: 'Comment not found' });
         res.status(200).json({ message: 'Comment deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+// Get all Comments for a specific Post
+exports.getCommentsByPost = async (req, res) => {
+    try {
+        const comments = await Comment.find({ postId: req.params.postId });
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+// Count the number of Comments for a specific Post
+exports.countCommentsForPost = async (req, res) => {
+    try {
+        const commentCount = await Comment.countDocuments({ postId: req.params.postId });
+        res.status(200).json({ commentCount });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

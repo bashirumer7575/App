@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const CommentController = require('../controllers/ControllerComment');
+const { createComment, getComment, updateComment, deleteComment, getCommentsByPost, countCommentsForPost } = require('../controllers/ControllerComment');
 
-router.post('/', CommentController.createComment);
-router.get('/:id', CommentController.getComment);
-router.put('/:id', CommentController.updateComment);
-router.delete('/:id', CommentController.deleteComment);
+// Define routes for comments
+router.post('/', createComment);
+router.get('/:id', getComment);
+router.put('/:id', updateComment);
+router.delete('/:id', deleteComment);
+
+// New routes for filtering by post
+router.get('/post/:postId', getCommentsByPost);
+router.get('/post/:postId/count', countCommentsForPost);
 
 module.exports = router;
